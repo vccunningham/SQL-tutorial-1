@@ -9,14 +9,14 @@ Birthday datetime not null,
 Loan decimal(8, 2));
 
 Insert into students(Firstname, Lastname, Active, Birthday, Loan)
-values ('Joe', 'Joe', 1, 1990-01-01, 43000.76)
+values ('Joe', 'Joe', 1, '1990-01-01', 43000.76)
 
 
 Insert into students(Firstname, Lastname, Active, Birthday, Loan)
-values ('Fred', 'Fred', 1, 1999-03-21, 56765.45)
+values ('Fred', 'Fred', 1, '1999-03-21', 56765.45)
 
 Insert into students(Firstname, Lastname, Active, Birthday, Loan)
-values ('Jeff', 'Jeff', 0, 2001-02-24, 93453.93)
+values ('Jeff', 'Jeff', 0, '2001-02-24', 93453.93)
 
 select * from students
 
