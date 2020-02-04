@@ -55,13 +55,13 @@ CREATE TABLE Product
 	VendorID int not null foreign key REFERENCES Vendor(ID));
 
 	INSERT into Product(PartNumber, Name, Price, Unit, VendorID)
-	values ('ECHO', 'AMAZON ECHO', '21.99', 'EACH', (Select id from VENDOR where code = 'Joe'));
+	values ('ECHO', 'AMAZON ECHO', '21.99', 'EACH', (Select id from VENDOR where code = '1221'));
 
 	Insert into Product(PartNumber, Name, Price, Unit, VendorID)
-	values ('APPL', 'APPLEWATCH', '399.99', 'EACH', (Select id from VENDOR where code = 'Jim'));
+	values ('APPL', 'APPLEWATCH', '399.99', 'EACH', (Select id from VENDOR where code = '1222'));
 
 	Insert into Product(PartNumber, Name, Price, Unit, VendorID)
-	values ('ECHODOT', 'AMAZON ECHO DOT', '34.99', 'EACH', (Select id from VENDOR where code = 'Jack'));
+	values ('ECHODOT', 'AMAZON ECHO DOT', '34.99', 'EACH', (Select id from VENDOR where code = '1223'));
 
 	select * from Product
 
@@ -78,9 +78,44 @@ CREATE TABLE Product
 	Total decimal (11,2) not null default 0,
 	UserID int not null foreign key references Users(ID));
 
+	Insert into Request(Description, Justification, Total, UserID)
+	values ('1st Request', 'None Needed', '0.00', (Select id from Users where Username = 'Tech1'));
+
+	Insert into Request(Description, Justification, Total, UserID)
+	values ('2nd Request', 'None Needed', '0.00', (Select id from Users where Username = 'Tech2'));
+
+	Insert into Request(Description, Justification, Total, UserID)
+	values ('3rd Request', 'None Needed', '0.00', (Select id from Users where Username = 'Tech3'));
+
+	select * from RequestLine;
+
 	CREATE TABLE RequestLine (ID int not null primary key identity(1, 1),
 	RequestID int not null foreign key references Request(ID),
 	ProductID int not null foreign key references Product(ID),
 	Quantity int not null default 1);
+
+	Insert into RequestLine (RequestID, ProductID)
+	values ((Select id from Request where Description = '1st Request'),(Select id from Product where name = 'AMAZON ECHO'));
+
+	Insert into RequestLine (RequestID, ProductID)
+	values ((Select id from Request where Description = '2nd Request'),(Select id from Product where name = 'APPLEWATCH'));
+
+	Insert into RequestLine (RequestID, ProductID)
+	values ((Select id from Request where Description = '3rd Request'),(Select id from Product where name = 'AMAZON ECHO DOT'));
+
+	Declare @RequestID int = 1;
+
+
+	
+	Select sum(rl.Quantity * p.Price) as 'Request Total'
+	
+	
+	Select p.Name, rl.Quantity, (rl.Quantity * p.Price) as 'Line Total'
+	from Request r
+	join RequestLine rl
+		on rl.RequestId = r.Id
+		join Product p
+		on p.id = rl.ProductId
+		where r.id = @RequestId
 
 
